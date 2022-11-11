@@ -30,42 +30,31 @@ def print_board(board):
     print(np.flip(board, 0))
 
 def winning_game(board, piece):
-    # check horizontally
-    for c in range(COLUMN-3):
-        for r in range(ROW):
-            if board[r][c] == piece and board[r][c+1] == piece and board[r][c+2] == piece and board[r][c+3] == piece:
-                return True
+	# Check horizontal locations for win
+	for c in range(COLUMN-3):
+		for r in range(ROW):
+			if board[r][c] == piece and board[r][c+1] == piece and board[r][c+2] == piece and board[r][c+3] == piece:
+				return True
 
-    # check vertically
-    for r in range(ROW-3):
-        for c in range(COLUMN):
-            if board[r][c] == piece and board[r+1][c] == piece and board[r+2][c] == piece and board[r+3][c] == piece:
-                return True
+	# Check vertical locations for win
+	for c in range(COLUMN):
+		for r in range(ROW-3):
+			if board[r][c] == piece and board[r+1][c] == piece and board[r+2][c] == piece and board[r+3][c] == piece:
+				return True
 
-        ## Score posiive sloped diagonal
-        for r in range(ROW - 3):
-            for c in range(COLUMN - 3):
-                window = [board[r + i][c + i] for i in range(4)]
-                score += evaluate_window(window, piece)
+	# Check positively sloped diaganols
+	for c in range(COLUMN-3):
+		for r in range(ROW-3):
+			if board[r][c] == piece and board[r+1][c+1] == piece and board[r+2][c+2] == piece and board[r+3][c+3] == piece:
+				return True
 
-        for r in range(ROW - 3):
-            for c in range(COLUMN - 3):
-                window = [board[r + 3 - i][c + i] for i in range(4)]
-                score += evaluate_window(window, piece)
-
-    # check positively sloped diagonls
-    for c in range(COLUMN-3):
-        for r in range(ROW-3):
-            if board[r][c] == piece and board[r+1][c+1] == piece and board[r+2][c+2] == piece and board[r+3][c+3] == piece:
-                return True
-
-    # check negatively sloped diagonals
-    for c in range(COLUMN-3):
-        for r in range(ROW - 3):
-            if board[r][c] == piece and board[r-1][c+1] == piece and board[r-2][c+2] == piece and board[r-3][c+3] == piece:
-                return True
-
+	# Check negatively sloped diaganols
+	for c in range(COLUMN-3):
+		for r in range(3, ROW):
+			if board[r][c] == piece and board[r-1][c+1] == piece and board[r-2][c+2] == piece and board[r-3][c+3] == piece:
+				return True
 def evaluate_window(window, piece):
+
 	score = 0
 	opp_piece = PLAYER_PIECE
 	if piece == PLAYER_PIECE:
