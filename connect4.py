@@ -101,7 +101,7 @@ def heuristic(board, piece):
 	## Score Vertical
 	for c in range(COLUMN):
 		col_array = [int(i) for i in list(board[:,c])]
-		for r in range(ROW_COUNT-3):
+		for r in range(ROW-3):
 			window = col_array[r:r+4]
 			score += evaluate_window(window, piece)
 
