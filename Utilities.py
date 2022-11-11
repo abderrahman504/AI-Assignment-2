@@ -1,14 +1,5 @@
 from typing import Self
 
-
-emptyBoardMatrix = []
-for i in range(6):
-	row = []
-	for j in range(7):
-		row.append(None)
-	emptyBoardMatrix.append(row)
-
-
 class GameState:
 	""""Class that represents a state of the game
 	
@@ -17,11 +8,9 @@ class GameState:
 	and predicting the score of this state.
 	"""
 	state = 0 #How should we represent the state of the board
-	aiPlaying: bool
 
-	def __init__(self, aiPlaying: bool, state: list = emptyBoardMatrix) -> None:
+	def __init__(self, state) -> None:
 		self.state = state
-		self.aiPlaying = aiPlaying
 
 	#Public methods
 
@@ -30,11 +19,56 @@ class GameState:
 		"""Uses a heuristic function to predict the score of this state"""
 		pass
 	
-	def get_next_states(self) -> dict:
-		"""Gets all possible next states of the game in a dictionary.
-		
+	"""Gets all possible next states of the game in a dictionary.
 		Keys correspond to a move, and values correspond to the state reached by applying the move"""
-		pass
+	def get_next_states(self, turn) -> list:
+		child_states = []
+		for i in range(7):
+			child_state = self.get_child_state(i, turn)
+			if child_state is not None:
+				child = GameState(child_state)
+				child_states.append(child)
+		return child_states
+
+	def convert_to_matrix(self):
+		matrix = [[None for i in range(7)] for j in range(6)]
+		print(matrix)
+		mask = 0b111111111
+		for i in range(7):
+			col = (self.state >> 9 * i) & mask
+			pieces_num = 3 & col
+			col = col >> 3
+			print(pieces_num)
+			for j in range(pieces_num):
+				if col & 1 == 1:
+					matrix[5 - j][i] = True
+				else:
+					matrix[5 - j][i] = False
+				col = col >> 1
+		return matrix
+
+	def __set_bit(self, bit):
+		return self.state | (1 << bit)
+
+	def __clear_bit(self, bit):
+		return self.state & ~(1 << bit)
+
+	def __get_pieces_num(self, col):
+		return (self.state & (3 << col * 9)) >> col * 9
+
+	def __increase_pieces_num(self, col):
+		return self.state + (1 << col * 9)
+
+	def get_child_state(self, col, turn):
+		pieces_num = self.__get_pieces_num(col)
+		if pieces_num == 7:
+			return None
+		bit_num = (pieces_num + 3) + 9 * col
+		child_state = self.__increase_pieces_num(col)
+		if turn:
+			return child_state.__set_bit(bit_num)
+		else:
+			return child_state.__clear_bit(bit_num)
 
 
 
