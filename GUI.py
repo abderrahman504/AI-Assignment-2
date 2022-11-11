@@ -99,8 +99,8 @@ while not game_over:
             # Ask for player2 input
             if turn==AI and not game_over:
             # posx = event.pos[0]
-                col = random.randint(0,COLUMN-1)
-
+                #col = random.randint(0,COLUMN-1)
+                col = best_move(board, AI_PIECE)
                 if is_valid_location(board, col):
                     pygame.time.wait(200)
                     row = get_next_open_row(board, col)
