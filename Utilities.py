@@ -7,9 +7,9 @@ class GameState:
 	
 	and predicting the score of this state.
 	"""
-	state = 0 #How should we represent the state of the board
+	state: int = 0 #How should we represent the state of the board
 
-	def __init__(self, state) -> None:
+	def __init__(self, state: int) -> None:
 		self.state = state
 
 	#Public methods
@@ -19,9 +19,11 @@ class GameState:
 		"""Uses a heuristic function to predict the score of this state"""
 		pass
 	
-	"""Gets all possible next states of the game in a dictionary.
-		Keys correspond to a move, and values correspond to the state reached by applying the move"""
+	
 	def get_next_states(self, turn) -> list:
+		"""Gets all possible next states of the game in a dictionary.
+
+		Keys correspond to a move, and values correspond to the state reached by applying the move"""
 		child_states = []
 		for i in range(7):
 			child_state = self.get_child_state(i, turn)
@@ -92,15 +94,15 @@ class Node:
 		return self.children[move]
 	
 
-	def expand_to_depth(self, depth: int, a_b_pruning: bool):
+	def expand_to_depth(self, depth: int, a_b_pruning: bool) -> None:
 		"""Expands this node and its children until a certain depth is reached"""
-		if self.children is None: self._build_children()
+		"""if self.children is None: self._build_children()
 		if k == 1: 
 			for k,v in self.children: v._build_score()
 		else:
 			for k,v in self.children:
 				v.expand_to_depth(depth-1)
-		self._build_score()
+		self._build_score()"""
 
 	#Private methods
 
@@ -127,7 +129,7 @@ class GameTree:
 	a_b_pruning: bool
 
 	def __init__(self,aiFirst: bool, k: int, pruning: bool) -> None:
-		emptyBoard: GameState = GameState(aiFirst)
+		emptyBoard: GameState = GameState(0)
 		self.root = Node(emptyBoard)
 		self.selected = self.root
 		self.a_b_pruning = pruning
