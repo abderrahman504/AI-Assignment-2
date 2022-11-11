@@ -66,7 +66,7 @@ class GameState:
 		if pieces_num == 7:
 			return None
 		bit_num = (pieces_num + 3) + 9 * col
-		child_state = self.__increase_pieces_num(col)
+		child_state = GameState(self.__increase_pieces_num(col))
 		if turn:
 			return child_state.__set_bit(bit_num)
 		else:
