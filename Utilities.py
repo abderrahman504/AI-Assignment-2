@@ -1,12 +1,3 @@
-import numpy as np
-
-ROW = 6
-COLUMN = 7
-player = 0
-AI = 1
-AI_PIECE = 2
-PLAYER_PIECE = 1
-empty=0
 
 
 class GameState:
@@ -28,65 +19,6 @@ class GameState:
 		"""Uses a heuristic function to predict the score of this state"""
 		pass
 	
-	def evaluate_window(window, piece):
-
-		score = 0
-		opp_piece = PLAYER_PIECE
-		if piece == PLAYER_PIECE:
-			opp_piece = AI_PIECE
-
-		if window.count(piece) == 4:
-			score += 100
-		elif window.count(piece) == 3 and window.count(empty) == 1:
-			score += 5
-		elif window.count(piece) == 2 and window.count(empty) == 2:
-			score += 2
-
-		if window.count(opp_piece) == 3 and window.count(empty) == 1:
-			score -= 4
-
-		return score
-
-
-
-	def heuristic(self, piece):
-		board = self.convert_to_matrix()
-		score = 0
-
-		## Score center column
-		center_array = [int(i) for i in list(board[:, COLUMN//2])]
-		center_count = center_array.count(piece)
-		score += center_count * 3
-
-		## Score Horizontal
-		for r in range(ROW):
-			row_array = [int(i) for i in list(board[r,:])]
-			for c in range(COLUMN-3):
-				window = row_array[c:c+4]
-				score += self.evaluate_window(window, piece)
-
-		## Score Vertical
-		for c in range(COLUMN):
-			col_array = [int(i) for i in list(board[:,c])]
-			for r in range(ROW-3):
-				window = col_array[r:r+4]
-				score += self.evaluate_window(window, piece)
-
-		## Score posiive sloped diagonal
-		for r in range(ROW-3):
-			for c in range(COLUMN-3):
-				window = [board[r+i][c+i] for i in range(4)]
-				score += self.evaluate_window(window, piece)
-
-		for r in range(ROW-3):
-			for c in range(COLUMN-3):
-				window = [board[r+3-i][c+i] for i in range(4)]
-				score += self.evaluate_window(window, piece)
-
-		return score
-
-
-
 	
 	def get_next_states(self, turn) -> list:
 		"""Gets all possible next states of the game in a dictionary.
@@ -224,5 +156,4 @@ class GameTree:
 			current = current.parent
 	
 
-
-
+	
