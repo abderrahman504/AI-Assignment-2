@@ -1,4 +1,4 @@
-from typing import Self
+
 
 class GameState:
 	""""Class that represents a state of the game
@@ -79,7 +79,7 @@ class Node:
 
 	Responsible for navigating the tree and evaluating a state's score.
 	"""
-	parent: Self = None
+	parent = None
 	value: GameState
 	score: int
 	children: dict = None
@@ -89,7 +89,7 @@ class Node:
 
 	#Public methods
 
-	def get_child(self, move: int) -> Self:
+	def get_child(self, move: int) :
 		"""Returns this node's child"""
 		return self.children[move]
 	
