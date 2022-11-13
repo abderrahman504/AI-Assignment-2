@@ -201,13 +201,14 @@ class GameTree:
 		self.root = Node(emptyBoard)
 		self.selected = self.root
 		self.a_b_pruning = pruning
+		self.root.expand_to_depth(k, pruning)
 	
 	#Public Methods
 
 	#Apply
 	def apply_move(self, move:int) -> None:
 		"""Applies a move to the game tree and progresses the selected node"""
-		self.selected = self.selector.get_child(move)
+		self.selected = self.selected.get_child(move)
 		self.selected.expand_to_depth(self.k, self.a_b_pruning)
 		self._update_scores()
 

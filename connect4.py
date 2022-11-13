@@ -53,6 +53,8 @@ def winning_game(board, piece):
 		for r in range(3, ROW):
 			if board[r][c] == piece and board[r-1][c+1] == piece and board[r-2][c+2] == piece and board[r-3][c+3] == piece:
 				return True
+
+
 def evaluate_window(window, piece):
 
 	score = 0
@@ -71,6 +73,8 @@ def evaluate_window(window, piece):
 		score -= 4
 
 	return score
+
+
 
 def heuristic(board, piece):
 	score = 0
@@ -113,6 +117,7 @@ def get_valid_locations(board):
         if is_valid_location(board,col):
             valid_locations.append(col)
         return valid_locations
+
 
 def best_move(board, piece):
     best_score=0
