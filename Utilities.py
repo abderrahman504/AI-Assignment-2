@@ -1,4 +1,10 @@
 
+player = 0
+AI = 1
+AI_PIECE = 2
+PLAYER_PIECE = 1
+empty=0
+
 class GameState:
 	""""Class that represents a state of the game
 	
