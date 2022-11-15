@@ -2,6 +2,7 @@ from __future__ import annotations
 from Utilities import GameState
 
 import pydot
+
 from IPython.display import Image, display
 
 class TreeNode:
@@ -44,13 +45,19 @@ class TreeNode:
 
 		#level = indent
 		print((' ' * indent) + str(root.get_value()))
-		rootNode = pydot.Node(root, style="filled", fillcolor="green")
+		rootNode = pydot.Node(root.get_value(), style="filled", fillcolor="green")
 		G.add_node(rootNode)
 		for c in root.get_children():
-			drawnode(G,rootNode,c)
-			c.displaygui(G,c,indent+1)
+			drawnode(G,root,c)
+			c.displaygui(G,c,indent+1) 
+        
+        
+        
+        
+        
 
-	def printtree(self,root:TreeNode):
+	def printtree(self,root:TreeNode): 
+        
 		G = pydot.Dot(graph_type="digraph")
 		self.displaygui(G,root)
 		im = Image(G.create_png())
@@ -59,7 +66,7 @@ class TreeNode:
 
 
 def drawnode(G,parentnode:TreeNode,childnode:TreeNode):
-		node = pydot.Node(childnode, style="filled", fillcolor="green")
+		node = pydot.Node(childnode.get_value(), style="filled", fillcolor="green")
 		G.add_node(node)
-		edge = pydot.Edge(parentnode, childnode)
+		edge = pydot.Edge(parentnode.get_value(), childnode.get_value())
 		G.add_edge(edge)

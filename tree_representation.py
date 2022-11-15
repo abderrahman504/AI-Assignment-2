@@ -19,7 +19,7 @@ child_node55.add_child(child_node15)
 child_node55.add_child(child_node20)
 child_node42.add_child(child_node22)
 
-printtree(root)
+root.printtree(root)
 
 
 
