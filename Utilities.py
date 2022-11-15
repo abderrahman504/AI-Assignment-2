@@ -1,4 +1,6 @@
 
+from Heuristic import heuristic
+
 player = 0
 AI = 1
 AI_PIECE = 2
@@ -22,7 +24,7 @@ class GameState:
 	#Uses the heuristic function to predict the score of this state.
 	def predict_score(self) -> int:
 		"""Uses a heuristic function to predict the score of this state"""
-		pass
+		return heuristic(self)
 	
 	
 	def get_next_states(self, turn) -> list:
@@ -38,7 +40,7 @@ class GameState:
 		return child_states
 
 	def convert_to_matrix(self):
-		matrix = [[None for i in range(7)] for j in range(6)]
+		matrix = [[0 for i in range(7)] for j in range(6)]
 		print(matrix)
 		mask = 0b111111111
 		for i in range(7):
@@ -48,9 +50,9 @@ class GameState:
 			print(pieces_num)
 			for j in range(pieces_num):
 				if col & 1 == 1:
-					matrix[5 - j][i] = True
+					matrix[5 - j][i] = 2
 				else:
-					matrix[5 - j][i] = False
+					matrix[5 - j][i] = 1
 				col = col >> 1
 		return matrix
 
