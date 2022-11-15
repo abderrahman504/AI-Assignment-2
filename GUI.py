@@ -100,11 +100,11 @@ pygame.display.set_caption('Connect4 Game')
 clock = pygame.time.Clock()
 gui_font = pygame.font.SysFont(None,30)
 font = pygame.font.SysFont('arial',75)
-#k = int(input("Enter maximum depth"))
+
 
 #define font color
 fontColor=(255,255,255)
-#game_over = False
+
 
 def draw_text(text,font, color,x,y):
     show = font.render(text,True,color)
@@ -113,19 +113,9 @@ def draw_text(text,font, color,x,y):
 def draw_menu():
     screen.fill((52, 78, 91))
     draw_text("Connect4 Game", font, fontColor, 80, 100)
-    #button1 = Button('PLAY WITHOUT PRUNING', 260, 130, (220, 480), 10)
-    #button2 = Button('PLAY WITH PRUNING', 260, 130, (220, 280), 10)
     button1.draw()
     button2.draw()
 
-
-
-#if check_click(self) == True:
-    #	menu = True
-    #else:
-    #	menu = False
-    #return menu
-#pygame.display.update()
 
 #def draw_game():
  #   turn = 0
@@ -194,21 +184,12 @@ def draw_menu():
 
 
 
-#def draw_game2():
-#	screen.fill((100, 100, 100))
-#	button4.draw()
-#	draw_text("hi", font, fontColor, 80, 100)
-#pygame.display.update()
+
 
 
 button1 = Button('PLAY WITHOUT PRUNING',260,130,(220,400),5)
 button2 = Button('PLAY WITH PRUNING',260,130,(220,250),5)
-#button3 = Button('HEY!',260,130,(220,280),5)
-#button4 = Button('hi!',260,130,(220,280),5)
-#a_b_pruning = True
-#with_pruning = UT.GameTree(k,True)
-#without_pruning = UT.GameTree(k,False)
-#pygame.init()
+
 
 
 width = COLUMN*SQUARESIZE
@@ -234,8 +215,8 @@ run= True
 while run:
     for event in pygame.event.get():
         if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED and event.ui_object_id=="#main_text_entry":
-           print(event.text)
-        #pygame.draw.rect(screen, BLACK, (0, 0, width, SQUARESIZE))
+           depth = print(event.text)
+        
 
         if main_menu:
             draw_menu()
@@ -243,7 +224,7 @@ while run:
             label.process_events(event)
             label.update(UI_REFRESH_RATE)
             label.draw_ui(screen)
-            #k = int(input("Enter maximum depth"))
+          
             pygame.display.update()
             if button1.pressed == True:
                 #without_pruning.apply_move()
@@ -259,10 +240,8 @@ while run:
             #sys.exit()
 
 
-            #if not run:
-               # pygame.time.wait(2000)
-
+          
     clock.tick(60)
 pygame.quit()
 sys.exit()
-print(text_input)
+
