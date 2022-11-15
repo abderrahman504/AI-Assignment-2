@@ -10,11 +10,13 @@ class TreeNode:
 	__score: int
 	__children: list
 
+
 	def __init__(self, value: GameState) -> None:
 		self.__value = value
+		self.__children=[]
 
 	def get_value(self):
-		self.__value
+		return self.__value
 
 	def add_child(self, child: TreeNode):
 		"""Expands this node by creating its child nodes"""
