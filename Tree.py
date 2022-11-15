@@ -2,8 +2,6 @@ from __future__ import annotations
 from Utilities import GameState
 
 
-
-
 class TreeNode:
 	"""
 	Class used to form the tree structure.
