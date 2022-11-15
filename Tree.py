@@ -1,6 +1,8 @@
 from __future__ import annotations
 from Utilities import GameState
 
+import pydot
+from IPython.display import Image, display
 
 class TreeNode:
 	"""
@@ -10,11 +12,13 @@ class TreeNode:
 	__score: int
 	__children: list
 
+
 	def __init__(self, value: GameState) -> None:
 		self.__value = value
+		self.__children=[]
 
 	def get_value(self):
-		self.__value
+		return self.__value
 
 	def add_child(self, child: TreeNode):
 		"""Expands this node by creating its child nodes"""
@@ -30,4 +34,32 @@ class TreeNode:
 	def get_score(self):
 		return self.__children
 
+	def display(self,root: TreeNode, indent=0):
+		#level = indent
+		print((' ' * indent) + str(root.get_value()))
+		for c in root.get_children():
+			drawnode()
+			c.display(c,indent + 1)
+	def displaygui(self,G,root: TreeNode, indent=0):
 
+		#level = indent
+		print((' ' * indent) + str(root.get_value()))
+		rootNode = pydot.Node(root, style="filled", fillcolor="green")
+		G.add_node(rootNode)
+		for c in root.get_children():
+			drawnode(G,rootNode,c)
+			c.displaygui(G,c,indent+1)
+
+	def printtree(self,root:TreeNode):
+		G = pydot.Dot(graph_type="digraph")
+		self.displaygui(G,root)
+		im = Image(G.create_png())
+		display(im)
+
+
+
+def drawnode(G,parentnode:TreeNode,childnode:TreeNode):
+		node = pydot.Node(childnode, style="filled", fillcolor="green")
+		G.add_node(node)
+		edge = pydot.Edge(parentnode, childnode)
+		G.add_edge(edge)
