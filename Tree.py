@@ -1,9 +1,8 @@
 from __future__ import annotations
 from Utilities import GameState
 
-import pydot
 
-from IPython.display import Image, display
+
 
 class TreeNode:
 	"""
@@ -35,38 +34,4 @@ class TreeNode:
 	def get_score(self):
 		return self.__children
 
-	def display(self,root: TreeNode, indent=0):
-		#level = indent
-		print((' ' * indent) + str(root.get_value()))
-		for c in root.get_children():
-			drawnode()
-			c.display(c,indent + 1)
-	def displaygui(self,G,root: TreeNode, indent=0):
 
-		#level = indent
-		print((' ' * indent) + str(root.get_value()))
-		rootNode = pydot.Node(root.get_value(), style="filled", fillcolor="green")
-		G.add_node(rootNode)
-		for c in root.get_children():
-			drawnode(G,root,c)
-			c.displaygui(G,c,indent+1) 
-        
-        
-        
-        
-        
-
-	def printtree(self,root:TreeNode): 
-        
-		G = pydot.Dot(graph_type="digraph")
-		self.displaygui(G,root)
-		im = Image(G.create_png())
-		display(im)
-
-
-
-def drawnode(G,parentnode:TreeNode,childnode:TreeNode):
-		node = pydot.Node(childnode.get_value(), style="filled", fillcolor="green")
-		G.add_node(node)
-		edge = pydot.Edge(parentnode.get_value(), childnode.get_value())
-		G.add_edge(edge)
