@@ -113,6 +113,8 @@ def draw_text(text,font, color,x,y):
 def draw_menu():
     screen.fill((52, 78, 91))
     draw_text("Connect4 Game", font, fontColor, 80, 100)
+    #button1 = Button('PLAY WITHOUT PRUNING', 260, 130, (220, 480), 10)
+    #button2 = Button('PLAY WITH PRUNING', 260, 130, (220, 280), 10)
     button1.draw()
     button2.draw()
 
@@ -201,6 +203,14 @@ def draw_menu():
 
 button1 = Button('PLAY WITHOUT PRUNING',260,130,(220,400),5)
 button2 = Button('PLAY WITH PRUNING',260,130,(220,250),5)
+#button3 = Button('HEY!',260,130,(220,280),5)
+#button4 = Button('hi!',260,130,(220,280),5)
+#a_b_pruning = True
+#with_pruning = UT.GameTree(k,True)
+#without_pruning = UT.GameTree(k,False)
+#pygame.init()
+
+
 width = COLUMN*SQUARESIZE
 height = (ROW+1)*SQUARESIZE
 
@@ -224,8 +234,8 @@ run= True
 while run:
     for event in pygame.event.get():
         if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED and event.ui_object_id=="#main_text_entry":
-            print(text_input)
-       
+           print(event.text)
+        #pygame.draw.rect(screen, BLACK, (0, 0, width, SQUARESIZE))
 
         if main_menu:
             draw_menu()
@@ -233,13 +243,14 @@ while run:
             label.process_events(event)
             label.update(UI_REFRESH_RATE)
             label.draw_ui(screen)
+            #k = int(input("Enter maximum depth"))
             pygame.display.update()
             if button1.pressed == True:
-               
+                #without_pruning.apply_move()
                 main_menu = False
                 pygame.display.update()
             elif button2.pressed==True:
-              
+                #with_pruning.apply_move(5)
                 main_menu = False
             pygame.display.update()
 
@@ -254,3 +265,4 @@ while run:
     clock.tick(60)
 pygame.quit()
 sys.exit()
+print(text_input)
