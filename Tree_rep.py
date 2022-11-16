@@ -1,8 +1,13 @@
 from Tree import TreeNode
 import pydot
 from IPython.display import Image, display
+from tkinter import *
 
-root = TreeNode(77)  # 45
+from PIL import Image, ImageTk
+
+
+
+root = TreeNode(45)  # 45
 # 55      #42     #33
 # 15   #20  #22
 
@@ -30,12 +35,25 @@ def displaygui(G, root: TreeNode, indent=0):
 
     # level = indent
 
+def displayphotograph(photo):
+    root = Tk()
 
+    image = Image.open(photo)
+    display = ImageTk.PhotoImage(image)
+
+    label = Label(root, image=display)
+    label.pack()
+
+    root.mainloop()
 def printtree(root: TreeNode):
     G = pydot.Dot(graph_type="digraph")
     displaygui(G, root)
-    im = Image(G.create_png())
-    display(im)
+    G.write_png('G.png')
+    displayphotograph('G.png')
+
+
+
+
 
 
 def drawnode(G, parentnode: TreeNode, childnode: TreeNode):
