@@ -97,7 +97,7 @@ def printtree(root: TreeNode):
     G = pydot.Dot(graph_type="graph")
     displaygui(G, root)
     G.write_png('G.png')
-    displayphotograph2('G.png')
+    displayphotograph('G.png')
 
 
 
