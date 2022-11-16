@@ -35,6 +35,7 @@ def heuristic(board: list, aiPiece, humanPiece) -> float:
 	matrix = board
 	ai_h = get_h_for_player(aiPiece)
 	human_h = get_h_for_player(humanPiece)
+	print(ai_h, human_h)
 	return ai_h - human_h
 
 

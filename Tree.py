@@ -16,7 +16,8 @@ class TreeNode:
 		self.__children=[]
 
 	def get_value(self):
-		return self.__value
+		#return self.__value
+		return str(self.__score)
 
 	def add_child(self, child: TreeNode):
 		"""Expands this node by creating its child nodes"""
