@@ -6,19 +6,21 @@
 Types of lines: Rows, Columns, Diagonals
 Features to search for in the board and their respective scores:
 
-1. 5 pieces or more = 1 (+1 per extra piece) (don't call on mirrored line)
+1. 4 pieces or more = 1 (+1 per extra piece) (don't call on mirrored line)
 
 2. 3 pieces then empty then 0 or more pieces = 0.5 (+0.5 per extra piece)
 
-3. 2 pieces then 2 empties = 0.25 
+3. 2 pieces then 2 empties = 0.25 (special case with cols required)
 
-4. 2 pieces then empty then 1 or 2 pieces = 0.5 or 1 
+4. 2 pieces then empty then 1 or 2 pieces = 0.5 or 1 (not in cols)
 
-5. 1 piece with 3 empties around it = 0.125 (don't call on mirrored line)
+5. 1 piece with 3 empties around it = 0.125 (special case with cols required) (don't call on mirrored line)
 
-6. 1 piece then next 3 places are empty exept place 2 or 3 has player piece = 0.25
+6. 1 piece then next 3 places are empty except place 2 or 3 has player piece = 0.25 (not in cols) (don't call on mirrored line)
 
-7. 4 pieces then empty then 0 or more pieces = 1 (+0.5 per extra piece)
+7. 4 pieces then empty then 1 or more pieces = 1.5 (+0.5 per extra piece) (not in cols)
+
+8. 5 pieces then empty then 1 or more pieces = 2.5 (+0.5 per extra piece) (not in cols)
 
 Note that searching for these features should be done left-to-right and right-to-left to not miss any features.
 When looking for a feature with an empty piece, make sure the peice below it isn't empty
@@ -40,8 +42,8 @@ def heuristic(board: list, aiPiece, humanPiece) -> float:
 def get_h_for_player(player: int) -> float:
 	score: float = 0
 	lines: list = get_rows()
-	lines = lines + get_cols() + get_neg_diags() + get_pos_diags()
-
+	lines = lines + get_neg_diags() + get_pos_diags()
+	cols: list = get_cols()
 	for line in lines:
 		score += find_feat1(line, player)
 		score += find_feat2(line, player)
@@ -54,19 +56,25 @@ def get_h_for_player(player: int) -> float:
 		score += find_feat2(line, player)
 		score += find_feat3(line, player)
 		score += find_feat4(line, player)
-		score += find_feat6(line, player)
 		score += find_feat7(line, player)
+	for col in cols:
+		col.reverse()
+		score += find_feat1(col, player)
+		score += find_feat2(col, player)
+		score += find_feat3_col(col, player)
+		score += find_feat5_col(col, player)
+	
 	return score
 
 
-#1. 5 pieces or more = 1 (+1 per extra piece) (don't call on mirrored line)
+#1. 4 pieces or more = 1 (+1 per extra piece) (don't call on mirrored line)
 def find_feat1(line: list, player: int) -> float:
 	count: int = 0
 	score: float = 0
 	i = 0
 	while i < len(line):
 		count = count_piece(player, line, i)
-		if count >= 5: break
+		if count >= 4: break
 		elif count == 0: i += 1
 		else:
 			i += count
@@ -104,23 +112,21 @@ def find_feat2(line: list, player: int) -> float:
 
 #3. 2 pieces then 2 empties = 0.25 
 def find_feat3(line: list, player: int) -> float:
-	count2: int = 0 
+	count: int = 0 
 	score: float = 0
 	i: int = 0
-	for i in range(len(line)):
-		loc = line[i]
-		piece = matrix[loc[0]][loc[1]]
-		if count2 != 2:
-			if piece == player: count2 += 1
-			else: count2 = 0
+	while i < len(line):
+		count = count_piece(player, line, i)
+		if count == 0: i += 1
+		elif count != 2: i += count
 		else:
+			i += count
 			if i == len(line) - 1: break
-			nextLoc = line[i+1]
-			nextPiece = matrix[nextLoc[0]][nextLoc[1]]
-			if piece == 0 and is_piece_available(loc) and nextPiece == 0 and is_piece_available(nextLoc):
+			emptyCount = count_piece(0, line, i)
+			if emptyCount >= 2:
 				score = 0.25
-				break	
-			else: break
+				break
+			else: i += 1
 	return score
 
 
@@ -155,10 +161,29 @@ def find_feat4(line: list, player: int) -> float:
 	return score
 
 
-#5. 1 piece then 3 empties = 0.125
+#5. 1 piece with 3 empties around it = 0.125
 def find_feat5(line: list, player: int) -> float:
 	score: float = 0
 	i = 0
+	while i < len(line):
+		count = count_piece(player, line, i)
+		if count == 0:
+			i += 1
+		elif count != 1:
+			i += count
+		else:
+			if i >= len(line): break
+			emptyCount = count_empties_around(i, line)
+			if emptyCount >= 3:
+				score = 0.125
+				break
+			else: i += 1
+	return score
+		
+
+#6. 1 piece then next 3 places are empty except place 2 or 3 has player piece = 0.25
+def find_feat6(line: list, player: int) -> float:
+	score: float = 0
 	while i < len(line) - 3:
 		count = count_piece(player, line, i)
 		if count == 0:
@@ -166,25 +191,20 @@ def find_feat5(line: list, player: int) -> float:
 		elif count != 1:
 			i += count
 		else:
-			i += count
-			if i >= len(line): break
-			emptyCount = count_piece(0, line, i)
-			if emptyCount >= 3:
-				score = 0.125
-				break
-			elif emptyCount == 0:
-				i += 1
-			else: i += emptyCount
-	return score
-		
-
-#6. 1 piece then next 3 places are empty exept place 2 or 3 has player piece = 0.25
-def find_feat6(line: list, player: int) -> float:
-	
-	
+			i += 1
+			loc = line[i]
+			loc2 = line[i+1]
+			loc3 = line[i+2]
+			if not is_piece_available(loc): continue
+			if is_piece_available(loc2):
+				if matrix[loc3[0]][loc3[1]] == player: score = 0.25
+			elif matrix[loc2[0]][loc2[1]] == player:#piece at place 2
+				if is_piece_available(loc3): score = 0.25
+			else: continue		
 	return 0
 
 
+#7. 4 pieces then empty then 1 or more pieces = 1.5 (+0.5 per extra piece)
 def find_feat7(line: list, player: int) -> float:
 	count: int = 0
 	score: float = 0
@@ -193,16 +213,52 @@ def find_feat7(line: list, player: int) -> float:
 		count = count_piece(player, line, i)
 		if count == 4:
 			i += count
+			if i >= len(line): break
 			loc = line[i]
+
 			if is_piece_available(loc):
 				extraCount = count_piece(player, line, i+1)
-				score = count - 3 + 0.5*extraCount
+				score += 0.5*extraCount
 				break
 		elif count == 0: i += 1
 		else:
 			i += count
 			count = 0
 	return score
+
+
+#3. 2 pieces then 2 empties = 0.25 
+def find_feat3_col(line: list, player: int) -> float:
+	score: float = 0
+	i: int = 0
+	while i < len(line):
+		count = count_piece(player, line, i)
+		if count == 0: i += 1
+		elif count != 2: i += count
+		else:
+			i += count
+			if i == len(line) - 1: break
+			loc = line[i]
+			
+			if matrix[loc[0]][loc[1]] == 0 and i <= len(line) - 2:
+				score = 0.25
+				break
+			else: i += 1
+	return score
+
+#5. 1 piece then 3 empties
+def find_feat5_col(line: list, player: int) -> float:
+	score = 0
+	i = 0
+	while i < len(line)-3:
+		loc = line[i]
+		loc2 = line[i+1]
+		if matrix[loc[0]][loc[1]] == player and matrix[loc2[0]][loc2[1]]:
+			score = 0.125
+			break
+		else: i += 2
+	return score
+
 
 
 def get_rows() -> list:
