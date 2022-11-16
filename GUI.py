@@ -3,9 +3,15 @@ import sys
 import pygame_gui
 import math
 import numpy as np
-import random
 import Utilities as UT
+import Minimax
+from Tree import TreeNode
 
+
+
+k = 4
+gameType=True
+GAME = UT.GameState(0)
 ROW = 6
 COLUMN = 7
 BLUE = (0,0, 255)
@@ -18,6 +24,8 @@ AI = 1
 
 pygame.font.init()
 pygame.init()
+
+
 
 
 class Button:
@@ -63,23 +71,19 @@ class Button:
                 self.dynamic_elecation = self.elevation
                 if self.pressed == True:
                     print('click')
-                    #draw_menu()
-                    #button3.draw()
                     self.pressed = False
         else:
             self.dynamic_elecation = self.elevation
             self.top_color = '#475F77'
 
 
-def creat_board():
-    board = np.zeros((ROW,COLUMN))
-    return board
 
-def print_board(board):
-    print(np.flip(board, 0))
+
 
 
 def draw_board(board):
+    board=np.flip(board, 0)
+
     for r in range(ROW):
         for c in range(COLUMN):
 
@@ -93,18 +97,18 @@ def draw_board(board):
             elif board[r][c] == 2:
                 pygame.draw.circle(screen, YELLOW, (int(c * SQUARESIZE + SQUARESIZE / 2), height-int(r * SQUARESIZE + SQUARESIZE / 2)), RADIUS)
     pygame.display.update()
-board = creat_board()
-print_board(board)
+
+
 turn = 0
 pygame.display.set_caption('Connect4 Game')
 clock = pygame.time.Clock()
 gui_font = pygame.font.SysFont(None,30)
 font = pygame.font.SysFont('arial',75)
-#k = int(input("Enter maximum depth"))
+
 
 #define font color
 fontColor=(255,255,255)
-#game_over = False
+
 
 def draw_text(text,font, color,x,y):
     show = font.render(text,True,color)
@@ -113,46 +117,42 @@ def draw_text(text,font, color,x,y):
 def draw_menu():
     screen.fill((52, 78, 91))
     draw_text("Connect4 Game", font, fontColor, 80, 100)
-    #button1 = Button('PLAY WITHOUT PRUNING', 260, 130, (220, 480), 10)
-    #button2 = Button('PLAY WITH PRUNING', 260, 130, (220, 280), 10)
     button1.draw()
     button2.draw()
 
 
+def draw_game():
+    turn = 0
+    global GAME
+    pygame.draw.rect(screen, BLACK, (0, 0, width, SQUARESIZE))
+    if event.type == pygame.MOUSEMOTION:
+        posx = event.pos[0]
+        if turn == 0:
+            pygame.draw.circle(screen, RED, (posx, int(SQUARESIZE / 2)), RADIUS)
+        else:
+            pygame.draw.circle(screen, YELLOW, (posx, int(SQUARESIZE / 2)), RADIUS)
+    pygame.display.update()
 
-#if check_click(self) == True:
-    #	menu = True
-    #else:
-    #	menu = False
-    #return menu
-#pygame.display.update()
+    if event.type == pygame.MOUSEBUTTONDOWN:
 
-#def draw_game():
- #   turn = 0
-  #  pygame.draw.rect(screen, BLACK, (0, 0, width, SQUARESIZE))
-   # if event.type == pygame.MOUSEMOTION:
-    #    pygame.draw.rect(screen, BLACK, (0, 0, width, SQUARESIZE))
-     #   posx = event.pos[0]
-      #  if turn == 0:
-       #     pygame.draw.circle(screen, RED, (posx, int(SQUARESIZE / 2)), RADIUS)
-       # else:
-        #    pygame.draw.circle(screen, YELLOW, (posx, int(SQUARESIZE / 2)), RADIUS)
-    #pygame.display.update()
 
-    #if event.type == pygame.MOUSEBUTTONDOWN:
-
-        # print(event.pos)
         # ask for player1 input
-     #   if turn == player:
-      #      posx = event.pos[0]
-       #     col = int(math.floor(posx / SQUARESIZE))
+        if turn == player:
 
-            # print(col)
-            # print(type(col))
+            posx = event.pos[0]
+            col = int(math.floor(posx / SQUARESIZE))
 
-        #    if is_valid_location(board, col):
-         #       row = get_next_open_row(board, col)
-          #      drop_piece(board, row, col, 1)
+
+            game = GAME.get_child_state(col,turn)
+            if game == None:
+                return
+            else:
+                GAME = UT.GameState(game)
+
+
+
+
+
 
                 # check if player 1 wins
            #     if winning_game(board, 1):
@@ -160,21 +160,21 @@ def draw_menu():
              #       screen.blit(label, (40, 10))
               #      run = False
                #     pygame.display.update()
-        #draw_board(board)
-        #print_board(board)
+        draw_board(GAME.convert_to_matrix())
 
-        #turn += 1
-        #turn = turn % 2
+
+        turn += 1
+        turn = turn % 2
 
         # Ask for player2 input
-        #if turn == AI :
-            #posx = event.pos[0]
-            #col = random.randint(0,COLUMN-1)
-         #   col = best_move(board, AI_PIECE)
-          #  if is_valid_location(board, col):
-                #pygame.time.wait(200)
-           #     row = get_next_open_row(board, col)
-            #    drop_piece(board, row, col, 2)
+        if turn == AI :
+            root = TreeNode()
+            if gameType:
+                _,GAME = Minimax.minimax(GAME, 0, True, k, root)
+            else:
+                _,GAME = Minimax.alphabeta_pruning(GAME, 0, True, k,-math.inf,math.inf, root)
+
+        print(GAME.convert_to_matrix())
 
                 # check if player 2 wins
 
@@ -189,27 +189,11 @@ def draw_menu():
 
         #turn += 1
         #turn = turn % 2
-#pygame.display.update()
-
-
-
-
-#def draw_game2():
-#	screen.fill((100, 100, 100))
-#	button4.draw()
-#	draw_text("hi", font, fontColor, 80, 100)
-#pygame.display.update()
+    #pygame.display.update()
 
 
 button1 = Button('PLAY WITHOUT PRUNING',260,130,(220,400),5)
 button2 = Button('PLAY WITH PRUNING',260,130,(220,250),5)
-#button3 = Button('HEY!',260,130,(220,280),5)
-#button4 = Button('hi!',260,130,(220,280),5)
-#a_b_pruning = True
-#with_pruning = UT.GameTree(k,True)
-#without_pruning = UT.GameTree(k,False)
-#pygame.init()
-
 
 width = COLUMN*SQUARESIZE
 height = (ROW+1)*SQUARESIZE
@@ -220,7 +204,7 @@ RADIUS = int(SQUARESIZE/2-5)
 
 screen = pygame.display.set_mode(size)
 
-draw_board(board)
+draw_board(GAME.convert_to_matrix())
 pygame.display.update()
 
 Font = pygame.font.SysFont("monospace", 75)
@@ -234,8 +218,8 @@ run= True
 while run:
     for event in pygame.event.get():
         if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED and event.ui_object_id=="#main_text_entry":
-           print(event.text)
-        #pygame.draw.rect(screen, BLACK, (0, 0, width, SQUARESIZE))
+
+            k=int(event.text)
 
         if main_menu:
             draw_menu()
@@ -245,24 +229,29 @@ while run:
             label.draw_ui(screen)
             #k = int(input("Enter maximum depth"))
             pygame.display.update()
+
             if button1.pressed == True:
-                #without_pruning.apply_move()
+                gameType=True
+
                 main_menu = False
+
                 pygame.display.update()
             elif button2.pressed==True:
-                #with_pruning.apply_move(5)
+#                global gameType
+                gameType=False
                 main_menu = False
+
             pygame.display.update()
 
-        if event.type == pygame.QUIT:
+
+        elif event.type == pygame.QUIT:
             run = False
-            #sys.exit()
-
-
-            #if not run:
-               # pygame.time.wait(2000)
+            
+        else:
+            draw_board(GAME.convert_to_matrix())
+            draw_game()
+            pygame.display.update()
 
     clock.tick(60)
 pygame.quit()
 sys.exit()
-print(text_input)

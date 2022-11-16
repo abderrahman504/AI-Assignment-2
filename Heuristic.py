@@ -368,4 +368,5 @@ def is_piece_available(loc: tuple) -> bool:
 	piece = matrix[loc[0]][loc[1]]
 	if piece == 0 and (loc[0] == 5 or matrix[loc[0]+1][loc[1]] != 0):
 		return True
-	else: return False
+	else:
+		return False

@@ -6,13 +6,11 @@ class TreeNode:
 	"""
 	Class used to form the tree structure.
 	"""
-	__value: GameState
 	__score: int
 	__children: list
 
 
-	def __init__(self, value: GameState) -> None:
-		self.__value = value
+	def __init__(self, ) -> None:
 		self.__children=[]
 
 	def get_value(self):

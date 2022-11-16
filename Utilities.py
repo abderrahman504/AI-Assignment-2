@@ -20,10 +20,6 @@ class GameState:
 	#Uses the heuristic function to predict the score of this state.
 	def predict_score(self) -> float:
 		"""Uses a heuristic function to predict the score of this state"""
-		mat = self.convert_to_matrix()
-		for i in mat :
-			print(i)
-
 		return heuristic(self.convert_to_matrix(), AI_PIECE, PLAYER_PIECE)
 	
 	
@@ -41,7 +37,7 @@ class GameState:
 		mask = 0b111111111
 		for i in range(7):
 			col = (self.state >> 9 * i) & mask
-			pieces_num = 3 & col
+			pieces_num = 7 & col
 			col = col >> 3
 			for j in range(pieces_num):
 				if col & 1 == 1:
@@ -58,25 +54,34 @@ class GameState:
 		return self.state & ~(1 << bit)
 
 	def __get_pieces_num(self, col):
-		return (self.state & (3 << col * 9)) >> col * 9
+		return (self.state & (7 << col * 9)) >> col * 9
 
 	def __increase_pieces_num(self, col):
 		return self.state + (1 << col * 9)
 
 	def get_child_state(self, col, turn):
 		pieces_num = self.__get_pieces_num(col)
-		if pieces_num == 7:
+		if pieces_num == 6:
 			return None
+		print(pieces_num)
 		bit_num = (pieces_num + 3) + 9 * col
 		child_state = GameState(self.__increase_pieces_num(col))
+		print(bit_num)
 		if turn:
+			print(f"{ child_state.__set_bit(bit_num):064b}")
 			return child_state.__set_bit(bit_num)
 		else:
 			return child_state.__clear_bit(bit_num)
 
 
+"""
+x = GameState(0)
+for i in range(7):
+	for j in range(6):
+		x = GameState(x.get_child_state(i, True))
+		mat = x.convert_to_matrix()
+		print()
+		for k in mat:
+			print(k)
 
-
-
-
-
+"""
