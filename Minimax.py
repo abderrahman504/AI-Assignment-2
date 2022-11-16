@@ -40,7 +40,7 @@ def alphabeta_pruning(state: GameState, depth, is_max, threshold, alpha, beta, r
         best_score, max_child = -math.inf, None
         child_states = state.get_next_states(1)
         for child in child_states:
-            child_node = TreeNode(child)
+            child_node = TreeNode()
             root.add_child(child_node)
             score, _ = alphabeta_pruning(child, depth + 1, False, threshold, alpha, beta, child_node)
             child_node.set_score(score)
@@ -56,7 +56,7 @@ def alphabeta_pruning(state: GameState, depth, is_max, threshold, alpha, beta, r
         best_score, min_child = math.inf, None
         child_states = state.get_next_states(0)
         for child in child_states:
-            child_node = TreeNode(child)
+            child_node = TreeNode()
             root.add_child(child_node)
             score, _ = alphabeta_pruning(child, depth + 1, True, threshold, alpha, beta, child_node)
             child_node.set_score(score)
@@ -67,10 +67,11 @@ def alphabeta_pruning(state: GameState, depth, is_max, threshold, alpha, beta, r
                 break
         root.set_score(best_score)
         return best_score, min_child
-
+"""
 x = GameState(0)
 y, z = minimax(x, 0, True, 3, TreeNode())
 mat = z.convert_to_matrix()
 for i in mat:
     print(i)
 print(y)
+"""
