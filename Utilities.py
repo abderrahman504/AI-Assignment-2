@@ -24,13 +24,10 @@ class GameState:
 	#Uses the heuristic function to predict the score of this state.
 	def predict_score(self) -> int:
 		"""Uses a heuristic function to predict the score of this state"""
-		return heuristic(self)
+		return heuristic(self.convert_to_matrix(), AI_PIECE, PLAYER_PIECE)
 	
 	
 	def get_next_states(self, turn) -> list:
-		"""Gets all possible next states of the game in a dictionary.
-
-		Keys correspond to a move, and values correspond to the state reached by applying the move"""
 		child_states = []
 		for i in range(7):
 			child_state = self.get_child_state(i, turn)

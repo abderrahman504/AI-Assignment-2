@@ -1,5 +1,3 @@
-from Utilities import GameState
-import Utilities
 
 
 
@@ -30,10 +28,11 @@ matrix: list
 
 
 
-def heuristic(state: GameState) -> float:
-	matrix = state.convert_to_matrix()
-	ai_h = get_h_for_player(Utilities.AI_PIECE)
-	human_h = get_h_for_player(Utilities.PLAYER_PIECE)
+def heuristic(board: list, aiPiece, humanPiece) -> float:
+	global matrix
+	matrix = board
+	ai_h = get_h_for_player(aiPiece)
+	human_h = get_h_for_player(humanPiece)
 	return ai_h - human_h
 
 
