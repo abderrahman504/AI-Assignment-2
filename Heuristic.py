@@ -239,7 +239,7 @@ def find_feat3_col(line: list, player: int) -> float:
 		elif count != 2: i += count
 		else:
 			i += count
-			if i == len(line) - 1: break
+			if i >= len(line) - 1: break
 			loc = line[i]
 			
 			if matrix[loc[0]][loc[1]] == 0 and i <= len(line) - 2:
