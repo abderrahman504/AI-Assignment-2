@@ -2,11 +2,21 @@ from Tree import TreeNode
 import pydot
 from IPython.display import Image, display
 from tkinter import *
+from Utilities import GameState
+from Minimax import minimax
+
 
 from PIL import Image, ImageTk
 
+x = GameState(0)
+t = TreeNode(x)
+y, z = minimax(x, 0, True, 4,  t)
+mat = z.convert_to_matrix()
+for i in mat:
+    print(i)
+print(y)
 
-
+"""
 root = TreeNode(45)  # 45
 # 55      #42     #33
 # 15   #20  #22
@@ -23,8 +33,7 @@ root.add_child(child_node33)
 child_node55.add_child(child_node15)
 child_node55.add_child(child_node20)
 child_node42.add_child(child_node22)
-
-
+"""
 def displaygui(G, root: TreeNode, indent=0):
     print((' ' * indent) + str(root.get_value()))
     rootNode = pydot.Node(root.get_value(), style="filled", fillcolor="cyan")
@@ -52,18 +61,15 @@ def printtree(root: TreeNode):
     displayphotograph('G.png')
 
 
-
-
-
-
 def drawnode(G, parentnode: TreeNode, childnode: TreeNode):
     node = pydot.Node(childnode.get_value(), style="filled", fillcolor="cyan")
     G.add_node(node)
     edge = pydot.Edge(parentnode.get_value(), childnode.get_value())
     G.add_edge(edge)
 
+printtree(t)
 
-printtree(root)
+#printtree(root)
 
 
 
