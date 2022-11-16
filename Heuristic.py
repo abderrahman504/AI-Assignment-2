@@ -185,6 +185,7 @@ def find_feat5(line: list, player: int) -> float:
 #6. 1 piece then next 3 places are empty except place 2 or 3 has player piece = 0.25
 def find_feat6(line: list, player: int) -> float:
 	score: float = 0
+	i = 0
 	while i < len(line) - 3:
 		count = count_piece(player, line, i)
 		if count == 0:
@@ -325,27 +326,28 @@ def count_empties_around(loc_index: int, line: list) -> int:
 	emptyCount = 0
 	end1 = False
 	end2 = False
-	i1 = loc_index-1
-	i2 = loc_index+1
-	loc1 = line[i1]
-	loc2 = line[i2]
+	i1 = loc_index
+	i2 = loc_index
+	
+
 	while not (end1 and end2):
 		if not end1:
-			if is_piece_available(loc1): 
-				emptyCount += 1
-				i1 -= 1
-				if i1 < 0: end1 = True
-				else: loc1 = line[i1]
-				
-			else: end1 = True
+			i1 -= 1
+			if i1 < 0: end1 = True
+			else:
+				loc1 = line[i1]
+				if is_piece_available(loc1): 
+					emptyCount += 1
+					
+				else: end1 = True
 		if not end2:
-			if is_piece_available(loc2): 
-				emptyCount += 1
-				i2 += 1
-				if i2 >= len(line): end2 = True
-				else: loc2 = line[i2]
-				
-			else: end2 = True
+			i2 += 1
+			if i2 >= len(line): end2 = True
+			else:
+				loc2 = line[i2]
+				if is_piece_available(loc2): 
+					emptyCount += 1
+				else: end1 = True
 	return emptyCount
 
 
