@@ -4,17 +4,16 @@ from Tree import TreeNode
 
 
 def minimax(state: GameState, depth, is_max, threshold, root: TreeNode):
-    if depth+1 == threshold:
+    if depth == threshold:
         return state.predict_score(), None
     if is_max:
         best_score, max_child = -math.inf, None
         child_states = state.get_next_states(1)
         for child in child_states:
-            child_node = TreeNode(child)
+            child_node = TreeNode()
             root.add_child(child_node)
             score, _ = minimax(child, depth + 1, False, threshold, child_node)
             child_node.set_score(score)
-            print(score)
             if best_score < score:
                 max_child, best_score = child, score
         root.set_score(best_score)
@@ -24,10 +23,9 @@ def minimax(state: GameState, depth, is_max, threshold, root: TreeNode):
         best_score, min_child = math.inf, None
         child_states = state.get_next_states(0)
         for child in child_states:
-            child_node = TreeNode(child)
+            child_node = TreeNode()
             root.add_child(child_node)
             score, _ = minimax(child, depth + 1, True, threshold, child_node)
-            print(score)
             child_node.set_score(score)
             if best_score > score:
                 min_child, best_score = child, score
@@ -36,7 +34,7 @@ def minimax(state: GameState, depth, is_max, threshold, root: TreeNode):
 
 
 def alphabeta_pruning(state: GameState, depth, is_max, threshold, alpha, beta, root: TreeNode):
-    if depth + 1 == threshold:
+    if depth == threshold:
         return state.predict_score(), None
     if is_max:
         best_score, max_child = -math.inf, None
@@ -71,7 +69,7 @@ def alphabeta_pruning(state: GameState, depth, is_max, threshold, alpha, beta, r
         return best_score, min_child
 
 x = GameState(0)
-y, z = alphabeta_pruning(x, 0, True, 4, -math.inf, math.inf, TreeNode(x))
+y, z = minimax(x, 0, True, 3, TreeNode())
 mat = z.convert_to_matrix()
 for i in mat:
     print(i)
