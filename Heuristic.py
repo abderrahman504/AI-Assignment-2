@@ -85,7 +85,7 @@ def find_feat2(line: list, player: int) -> float:
 			if piece == player: count3 += 1
 			else: count3 = 0
 		else:
-			if piece == 0 and matrix[loc[0]+1][loc[1]] != 0: #If this piece is empty and below it is filled.
+			if piece == 0 and piece_is_available(loc): #If this piece is empty and below it is filled.
 				emptyFound = True
 				i += 1
 				score = 0.5
@@ -101,7 +101,7 @@ def find_feat2(line: list, player: int) -> float:
 			i += 1
 	return score
 
-
+#3. 2 pieces then 2 empties = 0.25 
 def find_feat3(line: list, player: int) -> float:
 	count2: int = 0 
 	score: float = 0
@@ -114,9 +114,9 @@ def find_feat3(line: list, player: int) -> float:
 			else: count2 = 0
 		else:
 			if i == len(line) - 1: break
-			nexLoc = line[i+1]
-			nextPiece = matrix[nexLoc[0]][nexLoc[1]]
-			if piece == 0 and matrix[loc[0]+1][loc[1]] != 0 and nextPiece == 0 and matrix[nexLoc[0]+1][nexLoc[1]] != 0:
+			nextLoc = line[i+1]
+			nextPiece = matrix[nextLoc[0]][nextLoc[1]]
+			if piece == 0 and piece_is_available(loc) and nextPiece == 0 and piece_is_available(nextLoc):
 				score = 0.25
 				break	
 			else: break
@@ -136,7 +136,7 @@ def find_feat4(line: list, player: int) -> float:
 			if piece != player: count2 = 0
 			else: count2 += 1
 		else:
-			if piece == 0 and matrix[loc[0]+1][loc[1]] != 0:
+			if piece == 0 and piece_is_available(loc):
 				if i == len(line) - 1: break
 				nextLoc = line[i+1]
 				nextPiece = matrix[nextLoc[0]][nextLoc[1]]
@@ -156,7 +156,6 @@ def find_feat4(line: list, player: int) -> float:
 
 #5. 1 piece then 3 empties = 0.125
 def find_feat5(line: list, player: int) -> float:
-	return 0
 	score: float = 0
 	i = 0
 	while i < len(line) - 3:
@@ -176,23 +175,10 @@ def find_feat5(line: list, player: int) -> float:
 						i += 1
 						break
 					else: i += 1
-			elif piece == 0 and matrix[loc[0]+1][loc[1]] != 0: #Found player piece alone
-				emptyCount = 1
-				i += 1
-				#Look left
+			elif piece == 0 and piece_is_available(loc): #Found player piece alone
+				
+				emptyCount = count_empties_around(i-1, line)
 
-				#Look right
-				while i < len(line): #Count empty pieces
-					loc = line[i]
-					piece = matrix[loc[0]][loc[1]]
-					if piece == 0: 
-						emptyCount += 1
-						i += 1
-					else:
-						break
-				if emptyCount >= 3:
-					score = 0.125
-					break
 			else: #Second piece is opponent
 				i += 1
 				continue
@@ -266,5 +252,24 @@ def get_neg_diags() -> list:
 	return diags
 
 
-def count_empties_around(loc: tuple, line: list) -> int:
-	return 0
+def count_empties_around(loc_index: int, line: list) -> int:
+	emptyCount = 0
+	end1 = False
+	end2 = False
+	loc1 = (line[loc_index-1])
+	loc2 = (line[loc_index+1])
+	while not (end1 and end2):
+		if not end1:
+			piece1 = matrix[loc1[0]][loc1[1]]
+	return emptyCount
+
+
+def count_piece(pieceType: int, line: list, start_index: int) -> int:
+	pass
+
+
+def piece_is_available(loc: tuple) -> bool:
+	piece = matrix[loc[0]][loc[1]]
+	if piece == 0 and (loc[0] == 5 or matrix[loc[0]+1][loc[1]] != 0):
+		return True
+	else: return False
