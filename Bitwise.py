@@ -47,9 +47,12 @@ statex = 0
 x = statex
 x = get_state(x, 0, True)
 x = get_state(x, 0, False)
-x = get_state(x, 1, True)
+x = get_state(x, 0, True)
+x = get_state(x, 0, True)
+x = get_state(x, 0, True)
+
 print(convert_to_matrix(x))
-print(f"{get_state(x, 0, True):064b}")
+print(f"{x:064b}")
 
 print(f"{x:064b}")
 print(convert_to_matrix(x))
