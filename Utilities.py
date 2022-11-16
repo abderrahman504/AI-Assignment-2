@@ -22,7 +22,7 @@ class GameState:
 	#Public methods
 
 	#Uses the heuristic function to predict the score of this state.
-	def predict_score(self) -> int:
+	def predict_score(self) -> float:
 		"""Uses a heuristic function to predict the score of this state"""
 		return heuristic(self.convert_to_matrix(), AI_PIECE, PLAYER_PIECE)
 	

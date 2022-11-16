@@ -38,26 +38,24 @@ def heuristic(board: list, aiPiece, humanPiece) -> float:
 
 
 def get_h_for_player(player: int) -> float:
-	score: float
+	score: float = 0
 	lines: list = get_rows()
-	lines.append(get_cols())
-	lines.append(get_neg_diags())
-	lines.append(get_pos_diags())
+	lines = lines + get_cols() + get_neg_diags() + get_pos_diags()
 
 	for line in lines:
-		score += line.find_feat1(line, player)
-		score += line.find_feat2(line, player)
-		score += line.find_feat3(line, player)
-		score += line.find_feat4(line, player)
-		score += line.find_feat5(line, player)
-		score += line.find_feat6(line, player)
-		score += line.find_feat7(line, player)
+		score += find_feat1(line, player)
+		score += find_feat2(line, player)
+		score += find_feat3(line, player)
+		score += find_feat4(line, player)
+		score += find_feat5(line, player)
+		score += find_feat6(line, player)
+		score += find_feat7(line, player)
 		line.reverse()
-		score += line.find_feat2(line, player)
-		score += line.find_feat3(line, player)
-		score += line.find_feat4(line, player)
-		score += line.find_feat6(line, player)
-		score += line.find_feat7(line, player)
+		score += find_feat2(line, player)
+		score += find_feat3(line, player)
+		score += find_feat4(line, player)
+		score += find_feat6(line, player)
+		score += find_feat7(line, player)
 	return score
 
 
