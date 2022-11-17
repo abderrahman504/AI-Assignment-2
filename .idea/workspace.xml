@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ea79554e-c93f-4108-b8ad-12ed76ccba63" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/AI-Assignment-2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AI-Assignment-2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Heuristic.py" beforeDir="false" afterPath="$PROJECT_DIR$/Heuristic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Minimax.py" beforeDir="false" afterPath="$PROJECT_DIR$/Minimax.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tree.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tree.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/Utilities.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connect4.py" beforeDir="false" afterPath="$PROJECT_DIR$/connect4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tree_representation.py" beforeDir="false" afterPath="$PROJECT_DIR$/tree_representation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
