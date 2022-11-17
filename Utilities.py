@@ -21,6 +21,10 @@ class GameState:
 		return heuristic(self.convert_to_matrix(), AI_PIECE, PLAYER_PIECE)
 	
 	
+	def is_ai_winner(self) -> bool:
+		scores = self.get_player_scores()
+		return scores[1] > scores[0]
+
 	def get_player_scores(self) -> tuple:
 		""" Returns the scores of human and AI player respectively."""
 		return get_player_scores(self.convert_to_matrix(), AI_PIECE, PLAYER_PIECE)
