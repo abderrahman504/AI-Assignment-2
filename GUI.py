@@ -6,7 +6,7 @@ import numpy as np
 import Utilities as UT
 import Minimax
 from Tree import TreeNode
-
+import tree_representation
 
 
 k = 4
@@ -167,14 +167,16 @@ def draw_game():
         turn = turn % 2
 
         # Ask for player2 input
-        if turn == AI :
+        if turn == AI:
             root = TreeNode()
             if gameType:
                 _,GAME = Minimax.minimax(GAME, 0, True, k, root)
             else:
                 _,GAME = Minimax.alphabeta_pruning(GAME, 0, True, k,-math.inf,math.inf, root)
+            t.tree_rep(root, k)
 
         print(GAME.convert_to_matrix())
+
 
                 # check if player 2 wins
 

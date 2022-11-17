@@ -63,12 +63,12 @@ class GameState:
 		pieces_num = self.__get_pieces_num(col)
 		if pieces_num == 6:
 			return None
-		print(pieces_num)
+		#print(pieces_num)
 		bit_num = (pieces_num + 3) + 9 * col
 		child_state = GameState(self.__increase_pieces_num(col))
-		print(bit_num)
+		#print(bit_num)
 		if turn:
-			print(f"{ child_state.__set_bit(bit_num):064b}")
+			#print(f"{ child_state.__set_bit(bit_num):064b}")
 			return child_state.__set_bit(bit_num)
 		else:
 			return child_state.__clear_bit(bit_num)

@@ -5,6 +5,8 @@ from Tree import TreeNode
 
 def minimax(state: GameState, depth, is_max, threshold, root: TreeNode):
     if depth == threshold:
+        print("hhhh" , depth)
+
         return state.predict_score(), None
     if is_max:
         best_score, max_child = -math.inf, None
@@ -35,6 +37,7 @@ def minimax(state: GameState, depth, is_max, threshold, root: TreeNode):
 
 def alphabeta_pruning(state: GameState, depth, is_max, threshold, alpha, beta, root: TreeNode):
     if depth == threshold:
+        print("hhhh" , depth)
         return state.predict_score(), None
     if is_max:
         best_score, max_child = -math.inf, None
@@ -64,6 +67,7 @@ def alphabeta_pruning(state: GameState, depth, is_max, threshold, alpha, beta, r
                 min_child, best_score = child, score
             beta = min(beta, best_score)
             if alpha > beta:
+
                 break
         root.set_score(best_score)
         return best_score, min_child
