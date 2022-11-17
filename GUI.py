@@ -6,7 +6,7 @@ import numpy as np
 import Utilities as UT
 import Minimax
 from Tree import TreeNode
-import tree_representation
+from Heuristic import get_player_scores
 
 
 k = 4
@@ -120,10 +120,20 @@ def draw_menu():
     button1.draw()
     button2.draw()
 
+def board_is_full(state):
+    pieces_num = 0
+    for col in range(7):
+        pieces_num += (state & (7 << col * 9)) >> col * 9
+    if pieces_num == 42:
+        return True
+    return False
 
 def draw_game():
+    
+      
     turn = 0
     global GAME
+    
     pygame.draw.rect(screen, BLACK, (0, 0, width, SQUARESIZE))
     if event.type == pygame.MOUSEMOTION:
         posx = event.pos[0]
@@ -132,6 +142,18 @@ def draw_game():
         else:
             pygame.draw.circle(screen, YELLOW, (posx, int(SQUARESIZE / 2)), RADIUS)
     pygame.display.update()
+    if board_is_full(GAME.state):
+        ai_score,human_score = get_player_scores(GAME.convert_to_matrix(),2,1)
+        if ai_score > human_score:
+            label = Font.render("Player2 wins!", 2, YELLOW)
+            screen.blit(label, (40, 10))
+            pygame.display.update()
+        run = False
+        
+        
+        
+        
+    
 
     if event.type == pygame.MOUSEBUTTONDOWN:
 
@@ -154,7 +176,7 @@ def draw_game():
 
 
 
-                # check if player 1 wins
+                # check if player wins
            #     if winning_game(board, 1):
             #        label = Font.render("Player1 wins!", 1, RED)
              #       screen.blit(label, (40, 10))
@@ -167,24 +189,19 @@ def draw_game():
         turn = turn % 2
 
         # Ask for player2 input
-        if turn == AI:
+        if turn == AI :
             root = TreeNode()
             if gameType:
                 _,GAME = Minimax.minimax(GAME, 0, True, k, root)
             else:
                 _,GAME = Minimax.alphabeta_pruning(GAME, 0, True, k,-math.inf,math.inf, root)
-            tree_representation.tree_rep(root, k)
 
         print(GAME.convert_to_matrix())
-
 
                 # check if player 2 wins
 
              #   if winning_game(board, 2):
-              #      label = Font.render("Player2 wins!", 2, YELLOW)
-               #     screen.blit(label, (40, 10))
-                #    pygame.display.update()
-                  #  run = False
+              #     
         # board=creat_board()
        # draw_board(board)
        # print_board(board)
@@ -248,7 +265,7 @@ while run:
 
         elif event.type == pygame.QUIT:
             run = False
-            
+
         else:
             draw_board(GAME.convert_to_matrix())
             draw_game()
