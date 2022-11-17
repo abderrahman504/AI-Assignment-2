@@ -219,7 +219,7 @@ screen = pygame.display.set_mode(size)
 draw_board(GAME.convert_to_matrix())
 pygame.display.update()
 
-Font = pygame.font.SysFont("monospace", 75)
+Font = pygame.font.SysFont("monospace", 40)
 clock = pygame.time.Clock()
 label = pygame_gui.UIManager((width, height))
 text_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((250, 550), (200, 50)), manager=label,
