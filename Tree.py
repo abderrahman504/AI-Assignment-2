@@ -1,5 +1,4 @@
 from __future__ import annotations
-from Utilities import GameState
 
 
 class TreeNode:
@@ -7,11 +6,12 @@ class TreeNode:
 	Class used to form the tree structure.
 	"""
 	__score: int
-	__children: list
+	__children:[]
+	__indx = 0
 
 
 	def __init__(self, ) -> None:
-		self.__children=[]
+		self.__children=[ None for i in range(7)]
 
 	def get_value(self):
 		#return self.__value
@@ -19,7 +19,8 @@ class TreeNode:
 
 	def add_child(self, child: TreeNode):
 		"""Expands this node by creating its child nodes"""
-		self.__children.append(child)
+		self.__children[self.__indx] = child
+		self.__indx += 1
 
 	def get_children(self):
 		"""Returns this node's child"""

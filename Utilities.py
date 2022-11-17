@@ -10,7 +10,7 @@ class GameState:
 	Responsible for storing the state of the game, finding all possible moves,
 	and predicting the score of this state.
 	"""
-	state: int = 0 #How should we represent the state of the board
+	state: int = 0
 
 	def __init__(self, state: int) -> None:
 		self.state = state
@@ -63,25 +63,15 @@ class GameState:
 		pieces_num = self.__get_pieces_num(col)
 		if pieces_num == 6:
 			return None
-		print(pieces_num)
+		#print(pieces_num)
 		bit_num = (pieces_num + 3) + 9 * col
 		child_state = GameState(self.__increase_pieces_num(col))
-		print(bit_num)
+		#print(bit_num)
 		if turn:
-			print(f"{ child_state.__set_bit(bit_num):064b}")
+			#print(f"{ child_state.__set_bit(bit_num):064b}")
 			return child_state.__set_bit(bit_num)
 		else:
 			return child_state.__clear_bit(bit_num)
 
 
-"""
-x = GameState(0)
-for i in range(7):
-	for j in range(6):
-		x = GameState(x.get_child_state(i, True))
-		mat = x.convert_to_matrix()
-		print()
-		for k in mat:
-			print(k)
 
-"""

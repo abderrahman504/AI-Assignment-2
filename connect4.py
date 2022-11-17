@@ -78,7 +78,6 @@ def evaluate_window(window, piece):
 
 def heuristic(board, piece):
 	score = 0
-
 	## Score center column
 	center_array = [int(i) for i in list(board[:, COLUMN//2])]
 	center_count = center_array.count(piece)
