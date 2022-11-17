@@ -1,4 +1,4 @@
-from Heuristic import heuristic
+from Heuristic import heuristic, get_player_scores
 
 
 AI_PIECE = 2
@@ -15,14 +15,17 @@ class GameState:
 	def __init__(self, state: int) -> None:
 		self.state = state
 
-	#Public methods
 
-	#Uses the heuristic function to predict the score of this state.
 	def predict_score(self) -> float:
 		"""Uses a heuristic function to predict the score of this state"""
 		return heuristic(self.convert_to_matrix(), AI_PIECE, PLAYER_PIECE)
 	
 	
+	def get_player_scores(self) -> tuple:
+		""" Returns the scores of human and AI player respectively."""
+		return get_player_scores(self.convert_to_matrix(), AI_PIECE, PLAYER_PIECE)
+
+
 	def get_next_states(self, turn) -> list:
 		child_states = []
 		for i in range(7):

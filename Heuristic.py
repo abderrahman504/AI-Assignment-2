@@ -28,21 +28,16 @@ When looking for a feature with an empty piece, make sure the peice below it isn
 
 matrix: list
 
-AI_PIECE = 2
-PLAYER_PIECE = 1
 
-def get_player_scores(board: list) -> tuple:
-	""" Returns the scores of human and AI player respectively from the matrix of the board.
-	
-	"""
+def get_player_scores(board: list, aiPiece, humanPiece) -> tuple:
 	global matrix
 	matrix = board
 	lines = get_rows() + get_neg_diags() + get_pos_diags() + get_cols()
 	ai_score = 0
 	human_score = 0
 	for line in lines:
-		human_score += find_feat1(line, PLAYER_PIECE)
-		ai_score += find_feat1(line, AI_PIECE)
+		human_score += find_feat1(line, humanPiece)
+		ai_score += find_feat1(line, aiPiece)
 	
 	return human_score, ai_score
 
@@ -51,7 +46,6 @@ def heuristic(board: list, aiPiece, humanPiece) -> float:
 	matrix = board
 	ai_h = get_h_for_player(aiPiece)
 	human_h = get_h_for_player(humanPiece)
-	#print(ai_h, human_h)
 	return ai_h - human_h
 
 
