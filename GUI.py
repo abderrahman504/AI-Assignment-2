@@ -137,7 +137,7 @@ def draw_game():
             pygame.draw.circle(screen, YELLOW, (posx, int(SQUARESIZE / 2)), RADIUS)
     pygame.display.update()
     if board_is_full(GAME.state):
-        ai_score, human_score = get_player_scores(GAME.convert_to_matrix(),2,1)
+        human_score, ai_score = get_player_scores(GAME.convert_to_matrix(),2,1)
         s = ""
         if ai_score > human_score:
             s = "AI Wins!"
