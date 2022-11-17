@@ -173,7 +173,7 @@ def draw_game():
                 _,GAME = Minimax.minimax(GAME, 0, True, k, root)
             else:
                 _,GAME = Minimax.alphabeta_pruning(GAME, 0, True, k,-math.inf,math.inf, root)
-            t.tree_rep(root, k)
+            tree_representation.tree_rep(root, k)
 
         print(GAME.convert_to_matrix())
 

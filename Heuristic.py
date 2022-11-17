@@ -28,8 +28,6 @@ When looking for a feature with an empty piece, make sure the peice below it isn
 
 matrix: list
 
-
-
 def heuristic(board: list, aiPiece, humanPiece) -> float:
 	global matrix
 	matrix = board

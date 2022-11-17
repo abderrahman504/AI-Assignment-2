@@ -34,9 +34,7 @@ def levelOrder(root: TreeNode, k):
 def tree_rep(root: TreeNode, k):
 
     v_label = levelOrder(root, k)
-    print(v_label)
     nr_vertices = len(v_label)
-    print(nr_vertices)
 
     G = Graph.Tree(nr_vertices, 7) # 2 stands for children number
     lay = G.layout_reingold_tilford(mode="in", root={0})

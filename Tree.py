@@ -19,7 +19,6 @@ class TreeNode:
 
 	def add_child(self, child: TreeNode):
 		"""Expands this node by creating its child nodes"""
-		print(self.__indx)
 		self.__children[self.__indx] = child
 		self.__indx += 1
 

@@ -10,7 +10,7 @@ class GameState:
 	Responsible for storing the state of the game, finding all possible moves,
 	and predicting the score of this state.
 	"""
-	state: int = 0 #How should we represent the state of the board
+	state: int = 0
 
 	def __init__(self, state: int) -> None:
 		self.state = state
@@ -74,14 +74,4 @@ class GameState:
 			return child_state.__clear_bit(bit_num)
 
 
-"""
-x = GameState(0)
-for i in range(7):
-	for j in range(6):
-		x = GameState(x.get_child_state(i, True))
-		mat = x.convert_to_matrix()
-		print()
-		for k in mat:
-			print(k)
 
-"""
